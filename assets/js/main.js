@@ -88,7 +88,57 @@
 
 				$.scrollzer(ids, { pad: 200, lastHack: true });
 
-		// Header (narrower + mobile).
+			// Dynamic document.title based on section in view
+			(function() {
+				try {
+					var siteTitle = $('meta[property="og:site_name"]').attr('content') || (document.title.split(' | ')[0] || document.title);
+					var sectionTitles = {};
+					$nav_a.each(function() {
+						var href = $(this).attr('href');
+						if (!href || href.charAt(0) !== '#') return;
+						var id = href.substring(1);
+						var label = $(this).text().trim();
+						if (id) sectionTitles[id] = label || id;
+					});
+
+					var observeIds = Object.keys(sectionTitles);
+					if (!('IntersectionObserver' in window) || observeIds.length === 0) return;
+
+					var currentId = null;
+					var io = new IntersectionObserver(function(entries) {
+						// Pick the most visible entry
+						var best = entries.slice().sort(function(a, b) { return (b.intersectionRatio || 0) - (a.intersectionRatio || 0); })[0];
+						if (!best || !best.isIntersecting) return;
+						var id = best.target.id;
+						if (!id || id === currentId) return;
+						currentId = id;
+						var label = sectionTitles[id];
+						// If top/landing section, just site title
+						if (!label || id === 'top' || id === 'home') {
+							document.title = siteTitle;
+						} else {
+							document.title = siteTitle + ' | ' + label;
+						}
+					}, { rootMargin: '0px 0px -60% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+
+					observeIds.forEach(function(id) {
+						var el = document.getElementById(id);
+						if (el) io.observe(el);
+					});
+
+					// Also update immediately on hash navigation
+					$(window).on('hashchange', function() {
+						var h = (location.hash || '').replace('#', '');
+						if (!h) { document.title = siteTitle; return; }
+						var label = sectionTitles[h];
+						document.title = label ? (siteTitle + ' | ' + label) : siteTitle;
+					});
+				} catch (e) {
+					// Fail silently to avoid disrupting theme scripts
+				}
+			})();
+
+			// Header (narrower + mobile).
 
 			// Toggle.
 				$(

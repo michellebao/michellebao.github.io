@@ -9,9 +9,9 @@
   
   <!-- Title, description, author -->
   {%- capture _page_title -%}
-    {%- if page.title -%}{{- page.title | append: ' | ' -}}{%- endif -%}
     {{- site.title | default: "Untitled Website" -}}
-    {%- if site.subtitle -%}{{- site.subtitle | prepend: ' - ' -}}{%- endif -%}
+    {%- if page.title and page.title != '' -%}{{- ' | ' | append: page.title -}}{%- endif -%}
+    {%- if site.subtitle -%}{{- ' - ' | append: site.subtitle -}}{%- endif -%}
   {%- endcapture -%}
   {%- assign _page_title = _page_title | escape -%}
   {%- assign _page_description = page.description | default: site.description | default: _page_title | escape -%}
@@ -27,6 +27,15 @@
   <meta property="og:url" content="{{- page.url | absolute_url -}}" />
   <meta property="og:site_name" content="{{- site.title | escape -}}" />
   <meta property="og:description" content="{{- _page_description -}}" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{- 'assets/images/favicon_v2.svg?v=2' | relative_url -}}" />
+  <link rel="icon" type="image/png" sizes="96x96" href="{{- 'assets/images/favicon-96x96.png?v=2' | relative_url -}}" />
+  <link rel="icon" type="image/png" sizes="32x32" href="{{- 'assets/images/favicon-32x32.png?v=2' | relative_url -}}" />
+  <link rel="icon" type="image/png" sizes="16x16" href="{{- 'assets/images/favicon-16x16.png?v=2' | relative_url -}}" />
+  <link rel="shortcut icon" href="{{- 'assets/images/favicon.ico?v=2' | relative_url -}}" />
+  <link rel="mask-icon" href="{{- 'assets/images/favicon_v2.svg' | relative_url -}}" color="#000000" />
+  <link rel="apple-touch-icon" sizes="180x180" href="{{- 'assets/images/apple-touch-icon.png?v=2' | relative_url -}}" />
   
   <!-- Styles -->
   <meta charset="utf-8" />

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <style>
+      .star {
+        fill: #3667c0;
+        transform-origin: 16px 16px;
+        animation: spin 3s linear infinite, twinkle 1.5s ease-in-out infinite alternate;
+      }
+      @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes twinkle {
+        0% { opacity: 0.7; fill: #3667c0; }
+        50% { opacity: 1; fill: #5a8fd8; }
+        100% { opacity: 0.7; fill: #3667c0; }
+      }
+    </style>
+  </defs>
+  <path class="star" d="M16 2l4.12 8.35L28 12l-6 5.85L23.64 26 16 21.7 8.36 26 10 17.85 4 12l7.88-1.65L16 2z"/>
+</svg>

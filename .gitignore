@@ -2,3 +2,8 @@
 *.gem
 .sass-cache
 Gemfile.lock
+# Ignore the Ruby bundle directory
+.bundle/
+
+# Ignore the vendor/bundle directory used for caching and isolated gems
+vendor/bundle/
